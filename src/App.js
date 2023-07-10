@@ -1,15 +1,28 @@
-import Header from "./Components/Header";
-import Messages from "./Components/Messages";
-import SendForm from "./Components/SendForm";
+import { Route, Routes } from "react-router-dom";
+import ShowMessages from "./Pages/ShowMessages";
+import CreateAccount from "./Pages/CreateAccount";
+import { useState } from "react";
 
 function App() {
+  const [currentUser, setCurrentUser] = useState({});
+  
   return (
     <>
-      <div className="flex flex-col gap-3 p-10">
-        <Header />
-        <Messages />
-        <SendForm />
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={<CreateAccount setCurrentUser={setCurrentUser} />}
+        />
+        <Route
+          path="/messages"
+          element={
+            <ShowMessages
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
+      </Routes>
     </>
   );
 }
