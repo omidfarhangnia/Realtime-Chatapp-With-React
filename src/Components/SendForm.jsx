@@ -1,14 +1,26 @@
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  arrayUnion,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { useRef } from "react";
 import { db } from "../firebase";
 
-function SendForm() {
+function SendForm({ currentUser, setCurrentUser }) {
   const textAreaRef = useRef(null);
 
   async function handleClick() {
-    await addDoc(collection(db, "messages"), {
-        messageContext: textAreaRef.current.value,
-        timeStamp: serverTimestamp(),
+    const date = new Date();
+
+    await updateDoc(doc(db, "messages", `${currentUser.userName}`), {
+      userMessages: arrayUnion({
+        text: textAreaRef.current.value,
+        time: date.getTime(),
+      }),
+    }).then(() => {
+      textAreaRef.current.value = "";
+    }).catch((err) => {
+      console.log(err)
     })
   }
 

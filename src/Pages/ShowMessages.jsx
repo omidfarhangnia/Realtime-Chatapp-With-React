@@ -7,7 +7,7 @@ function ShowMessages({ currentUser, setCurrentUser }) {
     <div className="flex flex-col gap-3 p-10">
       <Header currentUser={currentUser} />
       <Messages currentUser={currentUser} />
-      <SendForm setCurrentUser={setCurrentUser} />
+      <SendForm currentUser={currentUser} setCurrentUser={setCurrentUser} />
     </div>
   );
 }

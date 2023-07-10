@@ -28,3 +28,17 @@ function App() {
 }
 
 export default App;
+
+/*
+  {
+    userName: string,
+    userId: uuid,
+    userMessages: [
+      {
+        text: string,
+        time: Date
+      }
+    ],
+    userImageUrl: string
+  } 
+*/
