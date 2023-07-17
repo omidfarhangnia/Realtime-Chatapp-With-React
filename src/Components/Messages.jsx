@@ -27,7 +27,7 @@ function Messages({ currentUser }) {
       <div className="w-full min-h-[300px] border-2 border-solid border-black p-5 flex flex-col">
         <h1>messages : </h1>
         <div>
-          <ShowMesssages messages={messages} />
+          <ShowMesssages currentUser={currentUser} messages={messages} />
         </div>
       </div>
     </>
@@ -36,10 +36,18 @@ function Messages({ currentUser }) {
 
 export default Messages;
 
-function ShowMesssages({ messages }) {
+function ShowMesssages({ currentUser, messages }) {
   return (
     <div>
-      {messages.map((message) => <div>{message.text}</div>)}
+      {messages.map((message) => (
+        <div
+          className={`${
+            currentUser.userId === message.messageSenderId ? "text-right" : ""
+          }`}
+        >
+          {message.text}
+        </div>
+      ))}
     </div>
   );
 }
