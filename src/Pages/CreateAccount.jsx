@@ -1,14 +1,33 @@
-import { doc, setDoc } from "firebase/firestore";
-import { useRef } from "react";
+import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
+import { useContext, useEffect, useRef, useState } from "react";
 import { db } from "../firebase";
 import { v4 as uuid } from "uuid";
 import { useNavigate } from "react-router-dom";
+import { DataContext } from "../App";
 
 function CreateAccount({ setCurrentUser }) {
+  const { setData } = useContext(DataContext);
   const userNameInputRef = useRef(null);
   const imagePathInputRef = useRef(null);
   const navigate = useNavigate();
   const id = uuid();
+
+  useEffect(() => {
+    async function listenerToServer() {
+      const unsub = await onSnapshot(collection(db, "messages"), (doc) => {
+        const datas = [];
+
+        doc.forEach((docMember) => {
+          datas.push(docMember.data());
+        });
+
+        setData(datas);
+      });
+    }
+    return () => {
+      listenerToServer();
+    };
+  }, []);
 
   async function handleClick() {
     if (userNameInputRef.current.value === "") {

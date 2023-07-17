@@ -1,31 +1,33 @@
 import { collection, onSnapshot } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { db } from "../firebase";
+import { DataContext } from "../App";
 
 function Messages({ currentUser }) {
-  const [data, setData] = useState([]);
+  const { data } = useContext(DataContext);
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    async function listenerToServer() {
-      const unsub = await onSnapshot(collection(db, "messages"), (doc) => {
-        const datas = [];
-        doc.forEach((docMember) => {
-          datas.push(docMember.data());
-        });
-        setData(datas);
+    if (data.length > 0) {
+      let allMessages = [];
+
+      data.map((data) => {
+        allMessages.push(data.userMessages);
       });
+
+      allMessages = allMessages.flat();
+      allMessages = allMessages.sort((a, b) => a.time - b.time);
+
+      setMessages(allMessages);
     }
-    return () => {
-      listenerToServer();
-    };
-  }, [currentUser]);
+  }, [data]);
 
   return (
     <>
       <div className="w-full min-h-[300px] border-2 border-solid border-black p-5 flex flex-col">
         <h1>messages : </h1>
         <div>
-          <ShowMesssages data={data} /> 
+          <ShowMesssages messages={messages} />
         </div>
       </div>
     </>
@@ -34,11 +36,10 @@ function Messages({ currentUser }) {
 
 export default Messages;
 
-function ShowMesssages({ data }) {
-  const messages = [];
-
-  useEffect(() => {
-    console.log(data)
-  }, [data]);
-  return <div>{data.userName}</div>;
+function ShowMesssages({ messages }) {
+  return (
+    <div>
+      {messages.map((message) => <div>{message.text}</div>)}
+    </div>
+  );
 }

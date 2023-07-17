@@ -16,6 +16,7 @@ function SendForm({ currentUser, setCurrentUser }) {
       userMessages: arrayUnion({
         text: textAreaRef.current.value,
         time: date.getTime(),
+        messageSenderId: currentUser.userId
       }),
     }).then(() => {
       textAreaRef.current.value = "";
