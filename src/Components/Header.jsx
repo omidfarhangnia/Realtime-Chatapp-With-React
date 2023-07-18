@@ -9,16 +9,12 @@ function Header({ currentUser }) {
             <span key={index}>{letter}</span>
           ))}
         </h1>
-        {/* <h1 className="text-[30px] font-bold italic">{currentUser.userName}</h1> */}
-        <div>
-          <h1 className="text-[30px] font-poppins">myName</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-[30px] font-poppins">{currentUser.userName}</h1>
           {currentUser.imgPath !== "" ? (
-            <img
-              src={currentUser.imgPath}
-              alt={`this is an image for ${currentUser.name} account`}
-            />
+            <img src={currentUser.imagePath} alt="" />
           ) : (
-            <span className="w-[30px] h-[30px] bg-gray-300"></span>
+            <div className="w-[30px] h-[30px] md:w-[40px] md:h-[40px] rounded-full bg-gray-200/40"></div>
           )}
         </div>
       </div>
