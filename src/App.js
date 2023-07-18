@@ -13,12 +13,13 @@ function App() {
     <>
       <DataContext.Provider value={{ data, setData }}>
         <Routes>
-          <Route
+          {/* <Route
             path="/"
             element={<CreateAccount setCurrentUser={setCurrentUser} />}
-          />
+          /> */}
           <Route
-            path="/messages"
+            // path="/messages"
+            path="/"
             element={
               <ShowMessages
                 currentUser={currentUser}
@@ -36,14 +37,14 @@ export default App;
 
 /*
   {
-    userName: string,
-    userId: uuid,
-    userMessages: [
+    name: string,
+    id: uuid,
+    messages: [
       {
         text: string,
         time: Date
       }
     ],
-    userImageUrl: string
+    imagePath: string
   } 
 */
