@@ -1,5 +1,5 @@
 import { collection, doc, onSnapshot, setDoc } from "firebase/firestore";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { db } from "../firebase";
 import { v4 as uuid } from "uuid";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ function CreateAccount({ setCurrentUser }) {
       listenerToServer();
     };
   }, []);
-  
+
   async function handleClick() {
     if (userNameInputRef.current.value === "") {
       alert("please write your user name");

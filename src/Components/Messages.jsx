@@ -1,6 +1,4 @@
-import { collection, onSnapshot } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
-import { db } from "../firebase";
 import { DataContext } from "../App";
 
 function Messages({ currentUser }) {

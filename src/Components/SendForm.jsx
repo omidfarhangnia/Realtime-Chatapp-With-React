@@ -1,12 +1,8 @@
-import {
-  arrayUnion,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useRef } from "react";
 import { db } from "../firebase";
 
-function SendForm({ currentUser, setCurrentUser }) {
+function SendForm({ currentUser }) {
   const textAreaRef = useRef(null);
 
   async function handleClick() {
@@ -16,13 +12,15 @@ function SendForm({ currentUser, setCurrentUser }) {
       userMessages: arrayUnion({
         text: textAreaRef.current.value,
         time: date.getTime(),
-        messageSenderId: currentUser.userId
+        messageSenderId: currentUser.userId,
       }),
-    }).then(() => {
-      textAreaRef.current.value = "";
-    }).catch((err) => {
-      console.log(err)
     })
+      .then(() => {
+        textAreaRef.current.value = "";
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (

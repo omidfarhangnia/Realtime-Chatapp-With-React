@@ -1,9 +1,6 @@
-import { useLocation } from "react-router-dom";
 import Header from "../Components/Header";
 import Messages from "../Components/Messages";
 import SendForm from "../Components/SendForm";
-import { useContext, useEffect } from "react";
-import { DataContext } from "../App";
 
 function ShowMessages({ currentUser, setCurrentUser }) {
   return (

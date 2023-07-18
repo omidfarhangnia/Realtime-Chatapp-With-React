@@ -13,13 +13,12 @@ function App() {
     <>
       <DataContext.Provider value={{ data, setData }}>
         <Routes>
-          {/* <Route
+          <Route
             path="/"
             element={<CreateAccount setCurrentUser={setCurrentUser} />}
-          /> */}
+          />
           <Route
-            // path="/messages"
-            path="/"
+            path="/messages"
             element={
               <ShowMessages
                 currentUser={currentUser}
