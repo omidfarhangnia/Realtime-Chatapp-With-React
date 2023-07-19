@@ -4,12 +4,34 @@ import { db } from "../firebase";
 import { v4 as uuid } from "uuid";
 import { useNavigate } from "react-router-dom";
 import { DataContext } from "../App";
+import {
+  BsFillEmojiDizzyFill,
+  BsFillEmojiExpressionlessFill,
+  BsFillEmojiFrownFill,
+  BsFillEmojiHeartEyesFill,
+  BsFillEmojiKissFill,
+  BsFillEmojiLaughingFill,
+  BsFillEmojiNeutralFill,
+  BsFillEmojiSmileFill,
+  BsFillEmojiSmileUpsideDownFill,
+  BsFillEmojiSunglassesFill,
+  BsFillEmojiWinkFill,
+} from "react-icons/bs";
+import { gsap } from "gsap";
 
 function CreateAccount({ setCurrentUser }) {
   const { setData } = useContext(DataContext);
   const userNameInputRef = useRef(null);
   const navigate = useNavigate();
   const id = uuid();
+
+  // function handleStartAnimation() {
+  //   const allChild = document.querySelector("#iconsBoxContainer>div");
+
+  //   // gsap.to("#iconsBoxContainer>div[0]", {
+  //   //   x: 1000,
+  //   // });
+  // }
 
   useEffect(() => {
     async function listenerToServer() {
@@ -26,6 +48,21 @@ function CreateAccount({ setCurrentUser }) {
     return () => {
       listenerToServer();
     };
+  }, []);
+
+  useEffect(() => {
+    // const firstChild = document.querySelector("#iconsBoxContainer>div");
+    const container = document.querySelector("#iconsBoxContainer>div");
+
+    console.log(container.toString());
+
+    gsap.to("#iconsBoxContainer>div", {
+      y: "-=1000",
+      duration: 150,
+      ease: "linear",
+      repeat: -1,
+      yoyo: true,
+    });
   }, []);
 
   async function handleClick() {
@@ -55,13 +92,63 @@ function CreateAccount({ setCurrentUser }) {
   }
 
   return (
-    <div className="w-[100vw] h-[100dvh] bg-customDarkBlue flex justify-center items-center gap-10">
+    <div className="w-[100vw] h-[100dvh] bg-customDarkBlue flex justify-center items-center gap-10 relative overflow-hidden">
+      <div
+        className="absolute w-[550%] md:w-[200%] lg:w-[150%] h-[150%] p-5 rotate-[30deg]"
+        id="iconsBoxContainer"
+      >
+        {[...Array(10)].map((member) => {
+          return (
+            <div className="flex flex-wrap gap-3 [&>svg]:opacity-30 justify-around">
+              <BsFillEmojiKissFill size={150} />
+              <BsFillEmojiSmileFill size={150} />
+              <BsFillEmojiExpressionlessFill size={150} />
+              <BsFillEmojiDizzyFill size={150} />
+              <BsFillEmojiNeutralFill size={150} />
+              <BsFillEmojiSmileUpsideDownFill size={150} />
+              <BsFillEmojiWinkFill size={150} />
+              <BsFillEmojiNeutralFill size={150} />
+              <BsFillEmojiSmileUpsideDownFill size={150} />
+              <BsFillEmojiSunglassesFill size={150} />
+              <BsFillEmojiSunglassesFill size={150} />
+              <BsFillEmojiKissFill size={150} />
+              <BsFillEmojiSmileFill size={150} />
+              <BsFillEmojiExpressionlessFill size={150} />
+              <BsFillEmojiFrownFill size={150} />
+              <BsFillEmojiSunglassesFill size={150} />
+              <BsFillEmojiSunglassesFill size={150} />
+              <BsFillEmojiKissFill size={150} />
+              <BsFillEmojiSmileFill size={150} />
+              <BsFillEmojiExpressionlessFill size={150} />
+              <BsFillEmojiFrownFill size={150} />
+              <BsFillEmojiHeartEyesFill size={150} />
+              <BsFillEmojiLaughingFill size={150} />
+              <BsFillEmojiFrownFill size={150} />
+              <BsFillEmojiKissFill size={150} />
+              <BsFillEmojiSmileFill size={150} />
+              <BsFillEmojiExpressionlessFill size={150} />
+              <BsFillEmojiDizzyFill size={150} />
+              <BsFillEmojiWinkFill size={150} />
+              <BsFillEmojiHeartEyesFill size={150} />
+              <BsFillEmojiLaughingFill size={150} />
+              <BsFillEmojiDizzyFill size={150} />
+              <BsFillEmojiHeartEyesFill size={150} />
+              <BsFillEmojiLaughingFill size={150} />
+              <BsFillEmojiFrownFill size={150} />
+              <BsFillEmojiNeutralFill size={150} />
+              <BsFillEmojiSmileUpsideDownFill size={150} />
+              <BsFillEmojiWinkFill size={150} />
+              <BsFillEmojiSunglassesFill size={150} />
+            </div>
+          );
+        })}
+      </div>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleClick();
         }}
-        className="flex flex-col gap-[40px] justify-center items-center w-[90%]"
+        className="flex flex-col gap-[40px] justify-center items-center w-[90%] z-10"
       >
         <input
           ref={userNameInputRef}
