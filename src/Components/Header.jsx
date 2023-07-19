@@ -10,7 +10,7 @@ function Header({ currentUser }) {
           ))}
         </h1>
         <div className="flex items-center gap-3">
-          <h1 className="text-[30px] font-poppins">{currentUser.userName}</h1>
+          <h1 className="text-[30px] font-poppins">{currentUser.name}</h1>
           {currentUser.imgPath !== "" ? (
             <img src={currentUser.imagePath} alt="" />
           ) : (

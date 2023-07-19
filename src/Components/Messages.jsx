@@ -10,7 +10,7 @@ function Messages({ currentUser }) {
       let allMessages = [];
 
       data.map((data) => {
-        allMessages.push(data.userMessages);
+        allMessages.push(data.messages);
       });
 
       allMessages = allMessages.flat();
@@ -37,10 +37,11 @@ export default Messages;
 function ShowMesssages({ currentUser, messages }) {
   return (
     <div>
-      {messages.map((message) => (
+      {messages.map((message, index) => (
         <div
+          key={index}
           className={`${
-            currentUser.userId === message.messageSenderId ? "text-right" : ""
+            currentUser.id === message.messageSenderId ? "text-right" : ""
           }`}
         >
           {message.text}

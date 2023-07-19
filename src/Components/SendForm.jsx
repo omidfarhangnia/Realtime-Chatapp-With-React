@@ -8,11 +8,11 @@ function SendForm({ currentUser }) {
   async function handleClick() {
     const date = new Date();
 
-    await updateDoc(doc(db, "messages", `${currentUser.userName}`), {
-      userMessages: arrayUnion({
+    await updateDoc(doc(db, "messages", `${currentUser.name}`), {
+      messages: arrayUnion({
         text: textAreaRef.current.value,
         time: date.getTime(),
-        messageSenderId: currentUser.userId,
+        messageSenderId: currentUser.id,
       }),
     })
       .then(() => {

@@ -25,14 +25,6 @@ function CreateAccount({ setCurrentUser }) {
   const navigate = useNavigate();
   const id = uuid();
 
-  // function handleStartAnimation() {
-  //   const allChild = document.querySelector("#iconsBoxContainer>div");
-
-  //   // gsap.to("#iconsBoxContainer>div[0]", {
-  //   //   x: 1000,
-  //   // });
-  // }
-
   useEffect(() => {
     async function listenerToServer() {
       const unsub = await onSnapshot(collection(db, "messages"), (doc) => {
@@ -51,11 +43,6 @@ function CreateAccount({ setCurrentUser }) {
   }, []);
 
   useEffect(() => {
-    // const firstChild = document.querySelector("#iconsBoxContainer>div");
-    const container = document.querySelector("#iconsBoxContainer>div");
-
-    console.log(container.toString());
-
     gsap.to("#iconsBoxContainer>div", {
       y: "-=1000",
       duration: 150,
@@ -97,9 +84,12 @@ function CreateAccount({ setCurrentUser }) {
         className="absolute w-[550%] md:w-[200%] lg:w-[150%] h-[150%] p-5 rotate-[30deg]"
         id="iconsBoxContainer"
       >
-        {[...Array(10)].map((member) => {
+        {[...Array(10)].map((member, index) => {
           return (
-            <div className="flex flex-wrap gap-3 [&>svg]:opacity-30 justify-around">
+            <div
+              key={index}
+              className="flex flex-wrap gap-3 [&>svg]:opacity-30 justify-around"
+            >
               <BsFillEmojiKissFill size={150} />
               <BsFillEmojiSmileFill size={150} />
               <BsFillEmojiExpressionlessFill size={150} />
