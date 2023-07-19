@@ -1,11 +1,12 @@
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useRef } from "react";
 import { db } from "../firebase";
+import { BsFillEmojiSmileFill } from "react-icons/bs";
 
 function SendForm({ currentUser }) {
   const textAreaRef = useRef(null);
 
-  async function handleClick() {
+  async function handleSendMessage() {
     const date = new Date();
 
     await updateDoc(doc(db, "messages", `${currentUser.name}`), {
@@ -25,17 +26,29 @@ function SendForm({ currentUser }) {
 
   return (
     <>
-      <div className="flex justify-center items-center gap-3">
-        <textarea
-          ref={textAreaRef}
-          className="bg-blue-300 resize-none w-[500px] h-[200px]"
-        />
-        <button
-          onClick={handleClick}
-          className="p-5 bg-black text-white rounded-lg"
+      <div className="flex bg-customWhite/25 rounded-lg gap-3">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSendMessage()
+          }}
+          className="w-full flex justify-between p-3 items-center"
         >
-          submit
-        </button>
+          <textarea
+            ref={textAreaRef}
+            className="bg-customLightBlue/40 text-white p-3 rounded-lg focus-within:outline-none min-w-[100px] w-[60%] resize-none h-[60px] textAreaSendMessages"
+          />
+          <input
+            type="submit"
+            className="text-white py-3 px-5 bg-customLightBlue/40 rounded-lg capitalize text-[25px]"
+            value={"send"}
+          />
+          <button
+            className="text-white py-3 px-5 bg-customLightBlue/40 rounded-lg"
+          >
+            <BsFillEmojiSmileFill size={30} />
+          </button>
+        </form>
       </div>
     </>
   );

@@ -22,8 +22,8 @@ function Messages({ currentUser }) {
 
   return (
     <>
-      <div className="w-full min-h-[300px] border-2 border-solid border-black p-5 flex flex-col">
-        <h1>messages : </h1>
+      <div className="w-full min-h-[500px] bg-customWhite/25 rounded-lg p-5 flex flex-col">
+        <h1 className="w-full text-center text-[30px] font-poppins capitalize pb-1 border-b-2 border-solid border-customWhite text-customWhite mb-3">messages</h1>
         <div>
           <ShowMesssages currentUser={currentUser} messages={messages} />
         </div>
