@@ -3,7 +3,7 @@ function Header({ currentUser }) {
 
   return (
     <>
-      <div className="flex justify-between items-center bg-customWhite/25 py-3 px-5 rounded-lg">
+      <div className="flex justify-between items-center bg-customWhite/25 py-3 px-5 rounded-lg select-none">
         <h1 className="font-bold font-lumonosimo text-[25px] text-white">
           {messageHeader.split("").map((letter, index) => (
             <span key={index}>{letter}</span>
