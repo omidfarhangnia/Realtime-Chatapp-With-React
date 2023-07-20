@@ -72,6 +72,7 @@ function CreateAccount({ setCurrentUser }) {
           messages: [],
           imagePath: "",
         });
+        
       })
       .catch((err) => {
         console.log(err);
