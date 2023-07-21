@@ -32,7 +32,7 @@ function Messages({ currentUser }) {
         <h1 className="w-full text-center text-[30px] font-poppins capitalize pb-1 border-b-2 border-solid border-customWhite text-customWhite mb-3 select-none">
           messages
         </h1>
-        <div className="flex flex-col justify-start text-white gap-3 mt-auto overflow-y-scroll">
+        <div className="flex flex-col justify-start text-white gap-3 mt-auto overflow-y-scroll min-h-[80%] messageScrollBar">
           {messages.map((message, index) => (
             <ShowMesssages
               key={index}
