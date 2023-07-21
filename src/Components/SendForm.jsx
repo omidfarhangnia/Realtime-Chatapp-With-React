@@ -2,6 +2,7 @@ import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useRef } from "react";
 import { db } from "../firebase";
 import { BsFillEmojiSmileFill } from "react-icons/bs";
+import { v4 as uuid } from "uuid";
 
 function SendForm({ currentUser }) {
   const textAreaRef = useRef(null);
@@ -13,7 +14,8 @@ function SendForm({ currentUser }) {
       messages: arrayUnion({
         text: textAreaRef.current.value,
         time: date.getTime(),
-        messageSenderId: currentUser.id,
+        id: uuid(),
+        senderName: currentUser.name,
       }),
     })
       .then(() => {
@@ -30,7 +32,7 @@ function SendForm({ currentUser }) {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleSendMessage()
+            handleSendMessage();
           }}
           className="w-full flex justify-between p-3 items-center"
         >
@@ -43,9 +45,7 @@ function SendForm({ currentUser }) {
             className="text-white py-3 px-5 bg-customLightBlue/40 rounded-lg capitalize text-[25px]"
             value={"send"}
           />
-          <button
-            className="text-white py-3 px-5 bg-customLightBlue/40 rounded-lg"
-          >
+          <button className="text-white py-3 px-5 bg-customLightBlue/40 rounded-lg">
             <BsFillEmojiSmileFill size={30} />
           </button>
         </form>

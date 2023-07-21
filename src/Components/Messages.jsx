@@ -1,9 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { DataContext } from "../App";
 import { ImBin } from "react-icons/im";
-import { BiMessageSquareMinus, BiSolidEditAlt } from "react-icons/bi";
+import { BiSolidEditAlt } from "react-icons/bi";
 import { gsap } from "gsap";
-import { doc, runTransaction, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 function Messages({ currentUser }) {
@@ -71,31 +71,20 @@ function ShowMesssages({ currentUser, message }) {
   }
 
   async function handleDeleteMessage() {
-    // const newMessageArray = currentUser.messages.filter(
-    //   (messageMember) => messageMember.messageSenderId !== message.messageSenderId
-    // );
+    const newMessageArray = currentUser.messages.filter(
+      (messageMember) => messageMember.id !== message.id
+    );
 
-    currentUser.messages.map((messageMember) => {
-      if (messageMember.messageSenderId !== message.messageSenderId) {
-        // console.log(messageMember);
-        // return messageMember;
-      } else {
-        // console.log(messageMember);
-      }
-      console.log(message.messageSenderId)
-      console.log(messageMember.messageSenderId)
+    await updateDoc(doc(db, "messages", currentUser.name), {
+      messages: newMessageArray,
     });
-
-    // await updateDoc(doc(db, "messages", currentUser.id), {
-    //   messages: newMessageArray,
-    // });
   }
 
   return (
     <>
       <div
         className={`${
-          currentUser.id === message.messageSenderId ? "self-end" : "self-start"
+          currentUser.name === message.senderName ? "self-end" : "self-start"
         } group bg-customLightBlue/40 min-w-[200px] max-w-[50%] py-2 px-3 rounded-lg cursor-pointer relative`}
       >
         <div
@@ -104,7 +93,7 @@ function ShowMesssages({ currentUser, message }) {
         >
           {message.text}
         </div>
-        {currentUser.id === message.messageSenderId && (
+        {currentUser.name === message.senderName && (
           <>
             <div
               ref={messageHandlerRef}
