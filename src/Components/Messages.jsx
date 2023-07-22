@@ -3,10 +3,8 @@ import { DataContext } from "../App";
 import { ImBin } from "react-icons/im";
 import { BiSolidEditAlt } from "react-icons/bi";
 import { gsap } from "gsap";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase";
 
-function Messages({ currentUser }) {
+function Messages({ currentUser, handleDeleteMessage, handleSetEditing }) {
   const { data } = useContext(DataContext);
   const [messages, setMessages] = useState([]);
 
@@ -38,6 +36,8 @@ function Messages({ currentUser }) {
               key={index}
               message={message}
               currentUser={currentUser}
+              handleDeleteMessage={handleDeleteMessage}
+              handleSetEditing={handleSetEditing}
             />
           ))}
         </div>
@@ -48,7 +48,12 @@ function Messages({ currentUser }) {
 
 export default Messages;
 
-function ShowMesssages({ currentUser, message }) {
+function ShowMesssages({
+  currentUser,
+  message,
+  handleSetEditing,
+  handleDeleteMessage,
+}) {
   const messageHandlerRef = useRef(null);
   let animationStatus = "open";
 
@@ -68,16 +73,6 @@ function ShowMesssages({ currentUser, message }) {
         },
       });
     }
-  }
-
-  async function handleDeleteMessage() {
-    const newMessageArray = currentUser.messages.filter(
-      (messageMember) => messageMember.id !== message.id
-    );
-
-    await updateDoc(doc(db, "messages", currentUser.name), {
-      messages: newMessageArray,
-    });
   }
 
   return (
@@ -103,13 +98,14 @@ function ShowMesssages({ currentUser, message }) {
                 <ImBin
                   size={23}
                   className="hover:text-gray-400 transition-all"
-                  onClick={handleDeleteMessage}
+                  onClick={() => handleDeleteMessage(message)}
                 />
               </div>
               <div>
                 <BiSolidEditAlt
                   size={23}
                   className="hover:text-gray-400 transition-all"
+                  onClick={() => handleSetEditing(message)}
                 />
               </div>
             </div>
