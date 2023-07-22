@@ -67,6 +67,7 @@ function CreateAccount({ setCurrentUser }) {
       messages: [],
       imagePath: "",
       userColor: randomColor,
+      description: "",
     })
       .then(() => {
         navigate("/messages");
@@ -76,6 +77,7 @@ function CreateAccount({ setCurrentUser }) {
           messages: [],
           imagePath: "",
           userColor: randomColor,
+          description: "",
         });
       })
       .catch((err) => {

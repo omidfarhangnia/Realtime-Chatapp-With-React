@@ -1,7 +1,8 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import ShowMessages from "./Pages/ShowMessages";
 import CreateAccount from "./Pages/CreateAccount";
 import { createContext, useEffect, useState } from "react";
+import ShowProfile from "./Pages/ShowProfile";
 
 export const DataContext = createContext([]);
 
@@ -28,15 +29,19 @@ function App() {
             path="/"
             element={<CreateAccount setCurrentUser={setCurrentUser} />}
           />
-          <Route
-            path="/messages"
-            element={
-              <ShowMessages
-                currentUser={currentUser}
-                setCurrentUser={setCurrentUser}
-              />
-            }
-          />
+          <Route path="/messages">
+            <Route
+              index
+              element={
+                <ShowMessages
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                />
+              }
+            />
+            <Route path=":id" element={<ShowProfile currentUser={currentUser} />} />
+          </Route>
+          <Route path="*" element={<Navigate to={"/"} />} />
         </Routes>
       </DataContext.Provider>
     </>
@@ -55,6 +60,7 @@ export default App;
         time: Date
       }
     ],
-    imagePath: string
+    imagePath: string,
+    userColor: hex code
   } 
 */

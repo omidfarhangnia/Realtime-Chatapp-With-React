@@ -3,6 +3,7 @@ import { DataContext } from "../App";
 import { ImBin } from "react-icons/im";
 import { BiSolidEditAlt } from "react-icons/bi";
 import { gsap } from "gsap";
+import { Link } from "react-router-dom";
 
 function Messages({ currentUser, handleDeleteMessage, handleSetEditing }) {
   const { data } = useContext(DataContext);
@@ -56,6 +57,7 @@ function ShowMesssages({
   handleSetEditing,
   handleDeleteMessage,
 }) {
+  const { data } = useContext(DataContext);
   const messageHandlerRef = useRef(null);
   // this value return the first letter of each words in username for message
   const messageSenderName = message.senderName
@@ -69,9 +71,7 @@ function ShowMesssages({
         : "show"
       : "show";
 
-  console.log(prevMessage);
   let animationStatus = "open";
-  console.log(profileIconStatus);
 
   function handleShowMessageHandler() {
     if (animationStatus === "open") {
@@ -104,27 +104,36 @@ function ShowMesssages({
           } `}
         >
           {profileIconStatus === "show" && (
-            <div
-              style={{ background: message.userColor }}
-              className={`w-full h-full select-none ${
-                message.imagePath === undefined &&
-                `bg-customBrown/60 flex justify-center items-center text-[20] uppercase`
-              } rounded-full`}
+            <Link
+              to={message.senderName}
+              state={{
+                target: data.filter(
+                  (dataMember) => dataMember.name === message.senderName
+                )[0],
+              }}
             >
-              {message.imagePath !== undefined ? (
-                <img
-                  src={message.imagePath}
-                  alt={"this is the image of " + message.name + " user"}
-                />
-              ) : (
-                <span>{messageSenderName}</span>
-              )}
-            </div>
+              <div
+                style={{ background: message.userColor }}
+                className={`w-full h-full select-none ${
+                  message.imagePath === undefined &&
+                  `bg-customBrown/60 flex justify-center items-center uppercase`
+                } rounded-full`}
+              >
+                {message.imagePath !== undefined ? (
+                  <img
+                    src={message.imagePath}
+                    alt={"this is the image of " + message.name + " user"}
+                  />
+                ) : (
+                  <span>{messageSenderName}</span>
+                )}
+              </div>
+            </Link>
           )}
         </div>
-        <div className="group bg-customLightBlue/40 min-w-[200px] max-w-[50%] py-2 px-3 rounded-lg cursor-pointer relative">
+        <div className="group bg-customLightBlue/40 min-w-[200px] max-w-[40%] ml-auto py-2 px-3 rounded-lg cursor-pointer relative">
           <div
-            className="z-10 absolute top-2 bg-[#31AEC1] h-[70%] w-[88%] break-words"
+            className="z-10 absolute top-2 text-justify bg-[#31AEC1] h-[70%] w-[88%] break-words"
             onClick={handleShowMessageHandler}
           >
             {message.text}
