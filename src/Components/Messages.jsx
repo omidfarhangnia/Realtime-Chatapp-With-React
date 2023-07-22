@@ -30,11 +30,12 @@ function Messages({ currentUser, handleDeleteMessage, handleSetEditing }) {
         <h1 className="w-full text-center text-[30px] font-poppins capitalize pb-1 border-b-2 border-solid border-customWhite text-customWhite mb-3 select-none">
           messages
         </h1>
-        <div className="flex flex-col justify-start text-white gap-3 mt-auto overflow-y-scroll min-h-[80%] messageScrollBar">
+        <div className="flex flex-col justify-start text-white gap-3 mt-auto overflow-y-scroll min-h-[80%] messageScrollBar px-2">
           {messages.map((message, index) => (
             <ShowMesssages
               key={index}
               message={message}
+              prevMessage={messages[index - 1]}
               currentUser={currentUser}
               handleDeleteMessage={handleDeleteMessage}
               handleSetEditing={handleSetEditing}
@@ -50,6 +51,7 @@ export default Messages;
 
 function ShowMesssages({
   message,
+  prevMessage,
   currentUser,
   handleSetEditing,
   handleDeleteMessage,
@@ -60,10 +62,16 @@ function ShowMesssages({
     .split(" ")
     .map((text) => text[0])
     .join("");
-  // it will return a random hex code
-  const randomColor =
-    "#" + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0");
+  const profileIconStatus =
+    prevMessage !== undefined
+      ? prevMessage.senderName === message.senderName
+        ? "hide"
+        : "show"
+      : "show";
+
+  console.log(prevMessage);
   let animationStatus = "open";
+  console.log(profileIconStatus);
 
   function handleShowMessageHandler() {
     if (animationStatus === "open") {
@@ -85,30 +93,36 @@ function ShowMesssages({
 
   return (
     <>
-      <div className="flex gap-3">
+      <div
+        className={`flex gap-3 ${
+          currentUser.name === message.senderName ? "self-end" : "self-start"
+        }`}
+      >
         <div
-          style={{ background: randomColor }}
           className={`w-[40px] h-[40px] ${
-            // it will give me random hex color for user
-            message.imagePath === undefined &&
-            `bg-customBrown/60 flex justify-center items-center text-[20] uppercase`
-          } rounded-full`}
+            currentUser.name === message.senderName && "order-2"
+          } `}
         >
-          {}
-          {message.imagePath !== undefined ? (
-            <img
-              src={message.imagePath}
-              alt={"this is the image of " + message.name + " user"}
-            />
-          ) : (
-            <span>{messageSenderName}</span>
+          {profileIconStatus === "show" && (
+            <div
+              style={{ background: message.userColor }}
+              className={`w-full h-full select-none ${
+                message.imagePath === undefined &&
+                `bg-customBrown/60 flex justify-center items-center text-[20] uppercase`
+              } rounded-full`}
+            >
+              {message.imagePath !== undefined ? (
+                <img
+                  src={message.imagePath}
+                  alt={"this is the image of " + message.name + " user"}
+                />
+              ) : (
+                <span>{messageSenderName}</span>
+              )}
+            </div>
           )}
         </div>
-        <div
-          className={`${
-            currentUser.name === message.senderName ? "self-end" : "self-start"
-          } group bg-customLightBlue/40 min-w-[200px] max-w-[50%] py-2 px-3 rounded-lg cursor-pointer relative`}
-        >
+        <div className="group bg-customLightBlue/40 min-w-[200px] max-w-[50%] py-2 px-3 rounded-lg cursor-pointer relative">
           <div
             className="z-10 absolute top-2 bg-[#31AEC1] h-[70%] w-[88%] break-words"
             onClick={handleShowMessageHandler}

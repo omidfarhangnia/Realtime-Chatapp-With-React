@@ -31,6 +31,7 @@ function SendForm({
         time: date.getTime(),
         id: uuid(),
         senderName: currentUser.name,
+        userColor: currentUser.userColor,
       }),
     })
       .then(() => {
@@ -67,6 +68,7 @@ function SendForm({
                     senderName: isEditing.target.senderName,
                     time: isEditing.target.time,
                     text: textAreaValue,
+                    userColor: isEditing.target.userColor,
                   });
                 }}
               >

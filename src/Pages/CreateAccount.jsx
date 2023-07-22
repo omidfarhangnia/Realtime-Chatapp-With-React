@@ -24,6 +24,9 @@ function CreateAccount({ setCurrentUser }) {
   const userNameInputRef = useRef(null);
   const navigate = useNavigate();
   const id = uuid();
+  // it will return a random hex code
+  const randomColor =
+    "#" + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0");
 
   useEffect(() => {
     async function listenerToServer() {
@@ -63,6 +66,7 @@ function CreateAccount({ setCurrentUser }) {
       id: id,
       messages: [],
       imagePath: "",
+      userColor: randomColor,
     })
       .then(() => {
         navigate("/messages");
@@ -71,8 +75,8 @@ function CreateAccount({ setCurrentUser }) {
           id: id,
           messages: [],
           imagePath: "",
+          userColor: randomColor,
         });
-        
       })
       .catch((err) => {
         console.log(err);
