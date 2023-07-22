@@ -49,12 +49,20 @@ function Messages({ currentUser, handleDeleteMessage, handleSetEditing }) {
 export default Messages;
 
 function ShowMesssages({
-  currentUser,
   message,
+  currentUser,
   handleSetEditing,
   handleDeleteMessage,
 }) {
   const messageHandlerRef = useRef(null);
+  // this value return the first letter of each words in username for message
+  const messageSenderName = message.senderName
+    .split(" ")
+    .map((text) => text[0])
+    .join("");
+  // it will return a random hex code
+  const randomColor =
+    "#" + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0");
   let animationStatus = "open";
 
   function handleShowMessageHandler() {
@@ -77,41 +85,61 @@ function ShowMesssages({
 
   return (
     <>
-      <div
-        className={`${
-          currentUser.name === message.senderName ? "self-end" : "self-start"
-        } group bg-customLightBlue/40 min-w-[200px] max-w-[50%] py-2 px-3 rounded-lg cursor-pointer relative`}
-      >
+      <div className="flex gap-3">
         <div
-          className="z-10 absolute top-2 bg-[#31AEC1] h-[70%] w-[88%] break-words"
-          onClick={handleShowMessageHandler}
+          style={{ background: randomColor }}
+          className={`w-[40px] h-[40px] ${
+            // it will give me random hex color for user
+            message.imagePath === undefined &&
+            `bg-customBrown/60 flex justify-center items-center text-[20] uppercase`
+          } rounded-full`}
         >
-          {message.text}
+          {}
+          {message.imagePath !== undefined ? (
+            <img
+              src={message.imagePath}
+              alt={"this is the image of " + message.name + " user"}
+            />
+          ) : (
+            <span>{messageSenderName}</span>
+          )}
         </div>
-        {currentUser.name === message.senderName && (
-          <>
-            <div
-              ref={messageHandlerRef}
-              className="flex gap-3 absolute left-[30px] top-[10px] z-0"
-            >
-              <div>
-                <ImBin
-                  size={23}
-                  className="hover:text-gray-400 transition-all"
-                  onClick={() => handleDeleteMessage(message)}
-                />
+        <div
+          className={`${
+            currentUser.name === message.senderName ? "self-end" : "self-start"
+          } group bg-customLightBlue/40 min-w-[200px] max-w-[50%] py-2 px-3 rounded-lg cursor-pointer relative`}
+        >
+          <div
+            className="z-10 absolute top-2 bg-[#31AEC1] h-[70%] w-[88%] break-words"
+            onClick={handleShowMessageHandler}
+          >
+            {message.text}
+          </div>
+          {currentUser.name === message.senderName && (
+            <>
+              <div
+                ref={messageHandlerRef}
+                className="flex gap-3 absolute left-[30px] top-[10px] z-0"
+              >
+                <div>
+                  <ImBin
+                    size={23}
+                    className="hover:text-gray-400 transition-all"
+                    onClick={() => handleDeleteMessage(message)}
+                  />
+                </div>
+                <div>
+                  <BiSolidEditAlt
+                    size={23}
+                    className="hover:text-gray-400 transition-all"
+                    onClick={() => handleSetEditing(message)}
+                  />
+                </div>
               </div>
-              <div>
-                <BiSolidEditAlt
-                  size={23}
-                  className="hover:text-gray-400 transition-all"
-                  onClick={() => handleSetEditing(message)}
-                />
-              </div>
-            </div>
-          </>
-        )}
-        <div className="z-10 opacity-0 break-words">{message.text}</div>
+            </>
+          )}
+          <div className="z-10 opacity-0 break-words">{message.text}</div>
+        </div>
       </div>
     </>
   );
