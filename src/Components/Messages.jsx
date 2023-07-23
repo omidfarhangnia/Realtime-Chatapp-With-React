@@ -131,7 +131,7 @@ function ShowMesssages({
             </Link>
           )}
         </div>
-        <div className="group bg-customLightBlue/40 min-w-[200px] max-w-[40%] ml-auto py-2 px-3 rounded-lg cursor-pointer relative">
+        <div className={`${currentUser.name === message.senderName && "ml-auto"} group bg-customLightBlue/40 min-w-[200px] max-w-[40%] py-2 px-3 rounded-lg cursor-pointer relative`}>
           <div
             className="z-10 absolute top-2 text-justify bg-[#31AEC1] h-[70%] w-[88%] break-words"
             onClick={handleShowMessageHandler}
