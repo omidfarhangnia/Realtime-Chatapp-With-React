@@ -13,6 +13,17 @@ function SendForm({
   handleCancelEdit,
 }) {
   const [textAreaValue, setTextAreaValue] = useState();
+  const [showEmoji, setShowEmoji] = useState(false);
+  const listOfEmoji = [
+    128512, 128513, 128514, 128515, 128516, 128517, 128518, 128519, 128520,
+    128521, 128522, 128523, 128524, 128525, 128526, 128527, 128528, 128529,
+    128530, 128531, 128532, 128533, 128534, 128535, 128536, 128537, 128538,
+    128539, 128540, 128541, 128542, 128543, 128544, 128545, 128546, 128547,
+    128548, 128549, 128550, 128551, 128552, 128553, 128554, 128555, 128556,
+    128557, 128558, 128559, 128560, 128561, 128562, 128563, 128564, 128565,
+    128566, 128567, 128568, 128569, 128570, 128571, 128572, 128573, 128574,
+    128575, 128576, 128577, 128578, 128579, 128580, 9994, 9995, 9996, 9997,
+  ];
 
   useEffect(() => {
     if (isEditing.status === true) {
@@ -49,7 +60,7 @@ function SendForm({
           onSubmit={(e) => {
             e.preventDefault();
           }}
-          className="w-full flex justify-between p-3 items-center"
+          className="w-full flex justify-between p-3 items-center relative"
         >
           <textarea
             value={textAreaValue}
@@ -89,11 +100,23 @@ function SendForm({
               >
                 send
               </button>
-              <button className="text-white py-3 px-5 bg-customLightBlue/40 rounded-lg">
-                <BsFillEmojiSmileFill size={30} />
-              </button>
             </>
           )}
+          {showEmoji && (
+            <div className="w-[250px] bg-white rounded-lg flex flex-wrap justify-between items-center place-content-between p-5 absolute bottom-[120%] right-0 z-20 select-none">
+              {listOfEmoji.map((emoji) => (
+                <span className="hover:bg-gray-300 p-1">{String.fromCodePoint(emoji)}</span>
+              ))}
+            </div>
+          )}
+          <button
+            onClick={(e) => {
+              setShowEmoji(!showEmoji);
+            }}
+            className="text-white py-3 px-5 bg-customLightBlue/40 rounded-lg"
+          >
+            <BsFillEmojiSmileFill size={30} />
+          </button>
         </form>
       </div>
     </>
