@@ -1,16 +1,13 @@
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db } from "../firebase";
 import { BsFillEmojiSmileFill } from "react-icons/bs";
-import { v4 as uuid } from "uuid";
 import { BiSave } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 
 function SendForm({
-  currentUser,
   isEditing,
   handleSaveEdit,
   handleCancelEdit,
+  handleSendMessage,
 }) {
   const [textAreaValue, setTextAreaValue] = useState();
   const [showEmoji, setShowEmoji] = useState(false);
@@ -32,26 +29,6 @@ function SendForm({
       setTextAreaValue("");
     }
   }, [isEditing]);
-
-  async function handleSendMessage() {
-    const date = new Date();
-
-    await updateDoc(doc(db, "messages", `${currentUser.name}`), {
-      messages: arrayUnion({
-        text: textAreaValue,
-        time: date.getTime(),
-        id: uuid(),
-        senderName: currentUser.name,
-        userColor: currentUser.userColor,
-      }),
-    })
-      .then(() => {
-        setTextAreaValue("");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
 
   return (
     <>
@@ -95,7 +72,9 @@ function SendForm({
           ) : (
             <>
               <button
-                onClick={handleSendMessage}
+                onClick={() =>
+                  handleSendMessage(textAreaValue, setTextAreaValue)
+                }
                 className="text-white py-3 px-5 bg-customLightBlue/40 rounded-lg capitalize text-[25px]"
               >
                 send
@@ -105,7 +84,9 @@ function SendForm({
           {showEmoji && (
             <div className="w-[250px] bg-white rounded-lg flex flex-wrap justify-between items-center place-content-between p-5 absolute bottom-[120%] right-0 z-20 select-none">
               {listOfEmoji.map((emoji) => (
-                <span className="hover:bg-gray-300 p-1">{String.fromCodePoint(emoji)}</span>
+                <span className="hover:bg-gray-300 p-1">
+                  {String.fromCodePoint(emoji)}
+                </span>
               ))}
             </div>
           )}

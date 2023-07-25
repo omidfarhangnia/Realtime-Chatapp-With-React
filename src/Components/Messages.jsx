@@ -5,7 +5,7 @@ import { BiSolidEditAlt } from "react-icons/bi";
 import { gsap } from "gsap";
 import { Link } from "react-router-dom";
 
-function Messages({ currentUser, handleDeleteMessage, handleSetEditing }) {
+function Messages(props) {
   const { data } = useContext(DataContext);
   const [messages, setMessages] = useState([]);
 
@@ -31,15 +31,13 @@ function Messages({ currentUser, handleDeleteMessage, handleSetEditing }) {
         <h1 className="w-full text-center text-[30px] font-poppins capitalize pb-1 border-b-2 border-solid border-customWhite text-customWhite mb-3 select-none">
           messages
         </h1>
-        <div className="flex flex-col justify-start text-white gap-3 mt-auto overflow-y-scroll min-h-[80%] messageScrollBar px-2">
+        <div className="flex flex-col justify-start text-white gap-3 mt-auto overflow-y-scroll min-h-[80%] messageScrollBar px-2 messageContainer">
           {messages.map((message, index) => (
             <ShowMesssages
               key={index}
               message={message}
               prevMessage={messages[index - 1]}
-              currentUser={currentUser}
-              handleDeleteMessage={handleDeleteMessage}
-              handleSetEditing={handleSetEditing}
+              {...props}
             />
           ))}
         </div>
@@ -56,6 +54,7 @@ function ShowMesssages({
   currentUser,
   handleSetEditing,
   handleDeleteMessage,
+  goToBottemOfElement,
 }) {
   const { data } = useContext(DataContext);
   const messageHandlerRef = useRef(null);
@@ -90,6 +89,10 @@ function ShowMesssages({
       });
     }
   }
+
+  useEffect(() => {
+    goToBottemOfElement();
+  }, []);
 
   return (
     <>
@@ -131,9 +134,13 @@ function ShowMesssages({
             </Link>
           )}
         </div>
-        <div className={`${currentUser.name === message.senderName && "ml-auto"} group bg-customLightBlue/40 min-w-[200px] max-w-[40%] py-2 px-3 rounded-lg cursor-pointer relative`}>
+        <div
+          className={`${
+            currentUser.name === message.senderName && "ml-auto"
+          } group bg-customLightBlue/40 min-w-[200px] max-w-[40%] py-2 px-3 rounded-lg cursor-pointer relative`}
+        >
           <div
-            className="z-10 absolute top-2 text-justify bg-[#31AEC1] h-[70%] w-[88%] break-words"
+            className="z-10 absolute top-2 bg-[#31AEC1] h-[70%] w-[88%] break-words"
             onClick={handleShowMessageHandler}
           >
             {message.text}

@@ -2,8 +2,9 @@ import { useState } from "react";
 import Header from "../Components/Header";
 import Messages from "../Components/Messages";
 import SendForm from "../Components/SendForm";
-import { doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { v4 as uuid } from "uuid";
 
 function ShowMessages({ currentUser }) {
   const [isEditing, setIsEditing] = useState({ status: false, target: null });
@@ -48,6 +49,31 @@ function ShowMessages({ currentUser }) {
     });
   }
 
+  async function handleSendMessage(textAreaValue, setTextAreaValue) {
+    const date = new Date();
+
+    await updateDoc(doc(db, "messages", `${currentUser.name}`), {
+      messages: arrayUnion({
+        text: textAreaValue,
+        time: date.getTime(),
+        id: uuid(),
+        senderName: currentUser.name,
+        userColor: currentUser.userColor,
+      }),
+    })
+      .then(() => {
+        setTextAreaValue("");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function goToBottemOfElement() {
+    const messageContainer = document.querySelector(".messageContainer");
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+  }
+
   return (
     <div className="flex flex-col justify-between gap-3 p-4 lg:p-10 bg-customDarkBlue w-[100vw] h-[100dvh] md:p-[50px] lg:px-[100px] py-[5vh] md:py-[10vh]">
       <Header currentUser={currentUser} />
@@ -55,12 +81,13 @@ function ShowMessages({ currentUser }) {
         currentUser={currentUser}
         handleDeleteMessage={handleDeleteMessage}
         handleSetEditing={handleSetEditing}
+        goToBottemOfElement={goToBottemOfElement}
       />
       <SendForm
-        currentUser={currentUser}
         isEditing={isEditing}
         handleSaveEdit={handleSaveEdit}
         handleCancelEdit={handleCancelEdit}
+        handleSendMessage={handleSendMessage}
       />
     </div>
   );
