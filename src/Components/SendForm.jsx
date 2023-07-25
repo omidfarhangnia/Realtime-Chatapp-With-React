@@ -92,7 +92,10 @@ function SendForm({
               </button>
               <button
                 className="text-white py-3 px-5 bg-customLightBlue/40 rounded-lg"
-                onClick={handleCancelEdit}
+                onClick={() => {
+                  handleCancelEdit();
+                  setShowEmoji(false);
+                }}
               >
                 <RxCross2 size={30} />
               </button>
@@ -100,9 +103,10 @@ function SendForm({
           ) : (
             <>
               <button
-                onClick={() =>
-                  handleSendMessage(textAreaValue, setTextAreaValue)
-                }
+                onClick={() => {
+                  handleSendMessage(textAreaValue, setTextAreaValue);
+                  setShowEmoji(false);
+                }}
                 className="text-white py-3 px-5 bg-customLightBlue/40 rounded-lg capitalize text-[25px]"
               >
                 send
