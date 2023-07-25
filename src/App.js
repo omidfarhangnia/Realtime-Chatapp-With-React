@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import ShowMessages from "./Pages/ShowMessages";
 import CreateAccount from "./Pages/CreateAccount";
 import { createContext, useEffect, useState } from "react";
@@ -49,18 +49,3 @@ function App() {
 }
 
 export default App;
-
-/*
-  {
-    name: string,
-    id: uuid,
-    messages: [
-      {
-        text: string,
-        time: Date
-      }
-    ],
-    imagePath: string,
-    userColor: hex code
-  } 
-*/
