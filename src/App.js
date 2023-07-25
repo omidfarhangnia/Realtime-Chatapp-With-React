@@ -39,7 +39,10 @@ function App() {
                 />
               }
             />
-            <Route path=":id" element={<ShowProfile currentUser={currentUser} />} />
+            <Route
+              path=":id"
+              element={<ShowProfile currentUser={currentUser} />}
+            />
           </Route>
           <Route path="*" element={<Navigate to={"/"} />} />
         </Routes>
